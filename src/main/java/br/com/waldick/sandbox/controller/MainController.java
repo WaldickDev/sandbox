@@ -8,7 +8,7 @@ public class MainController {
 
     @GetMapping("/")
     public String index() {
-        return "Olá, " + System.getenv("SANDBOX_USER_NAME") + "! Seja bem vindo!";
+        return "Olá, " + System.getenv("SANDBOX_USER_NAME") + "!\r\n" + new java.util.Date();
     }
 
 }
