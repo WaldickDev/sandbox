@@ -1,0 +1,38 @@
+name: Deploy Spring Boot App to Oracle Cloud
+
+on:
+  push:
+    branches:
+      - main  # ou outra branch que você usa para deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Conectar via SSH e fazer deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd git/sandbox
+            
+            echo -e "### Baixando atualizações..."
+            git pull origin main
+            
+            echo -e "### Parando container Sandbox..."
+            docker stop sandbox
+            
+            echo -e "### Apagando container Sandbox..."
+            docker rm sandbox
+            
+            echo -e "### Build do container com as novas atualizações..."
+            docker build -t waldick/sandbox:1.0-amd64 .
+            
+            echo -e "### Executando o novo container..."
+            nohup docker run --name sandbox -e SANDBOX_USER_NAME=Waldson -p 8080:8080 waldick/sandbox:1.0-amd64 > app.log 2>&1 &
+            
+            echo -e "### Fim do script."
