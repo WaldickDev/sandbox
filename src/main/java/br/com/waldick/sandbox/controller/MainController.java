@@ -16,7 +16,7 @@ public class MainController {
         ZoneId americaSaoPaulo = ZoneId.of("America/Sao_Paulo");
         ZonedDateTime nowAmericaSaoPaulo = ZonedDateTime.ofInstant(nowUtc, americaSaoPaulo);
         
-        return "Olá, " + System.getenv("SANDBOX_USER_NAME") + "! Agora são: " + nowAmericaSaoPaulo;
+        return "Olá, " + System.getenv("SANDBOX_USER_NAME") + "! Agora são: " + nowAmericaSaoPaulo + ".";
     }
 
 }

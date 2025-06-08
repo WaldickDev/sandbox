@@ -21,7 +21,8 @@ jobs:
             cd git/sandbox
             
             echo -e "### Baixando atualizações..."
-            git pull origin main
+            git fetch --all
+            git reset --hard origin/main
             
             echo -e "### Parando container Sandbox..."
             docker stop sandbox
